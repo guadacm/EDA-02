@@ -36,7 +36,9 @@ void encabezado();
 void borrar_salto(Articulo *art);
 // -- A.B.B.
 int localizar_ABB(char code[],aNodo **padre, aNodo **actual, int ConCosto);
+void mostrarArbol(Arbol r);
 void mostrarArbolDibujado(Arbol r);
+void InOrden(Arbol r);
 
 // -- L.I.
 
@@ -65,7 +67,7 @@ void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
     Articulo nuevo;
     FILE *fp;
 
-    if ((fp = fopen("Articulos.txt", "r")) == NULL)
+    if ((fp = fopen("PruebaArticulos.txt", "r")) == NULL)
         printf("\n\nERROR: no se pudo abrir el archivo\n\n");
     else
     {

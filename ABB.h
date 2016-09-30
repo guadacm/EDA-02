@@ -100,11 +100,48 @@ void menu_ABB(int *op)
 
         case 4:
             encabezado();
+            int ord;
             printf("Arbol Binario de Busqueda\n");
             printf("_________________________\n");
             printf("\n[4] Mostrar Estructura\n");
             if (ABB == NULL) printf("\n\t Estructura VACIA...\n");
-            mostrarArbolDibujado(ABB);
+            if(ABB!=NULL){
+                printf("\n == Opciones de Mostrar Estructura del ABB: ==");
+                printf("\n\tOPCION 1) ---> Orden sugerido de Practico.");
+                printf("\n\tOPCION 2) ---> Orden sugerido de Practico (Dibujado solo codigos).");
+                printf("\n\tOPCION 3) ---> InOrden.");
+                printf("\n\tOPCION 4) ---> PreOrden.");
+                printf("\n\tOPCION 5) ---> PostOrden.\n");
+                scanf("%d",&ord);
+                printf("\n\t ----------LISTA DE ARTICULOS----------\n");
+                switch(ord){
+                    case 1:
+                        printf("\t(Con Recorrido Como lo Sugiere el Practico)");
+                        mostrarArbol(ABB);
+                        break;
+
+                    case 2:
+                        printf("    (Con Recorrido Como lo Sugiere el Practico (Dibujado)");
+                        mostrarArbolDibujado(ABB);
+                        break;
+
+                    case 3:
+                        printf("\t\t(Con Recorrido IN-ORDEN)");
+                        InOrden(ABB);
+                        break;
+
+                    case 4:
+                        printf("\t\t(Con Recorrido PRE-ORDEN)");
+                        //PreOrden(abb);
+                        break;
+
+                    case 5:
+                        printf("\t\t(Con Recorrido POST-ORDEN)");
+                        //PostOrden(abb);
+                        break;
+                    }
+            }
+
             system("pause");
             break;
 
@@ -122,12 +159,12 @@ void menu_ABB(int *op)
 
 }
 
-int localizar_ABB(char code[],aNodo **padre, aNodo **actual, int ConCosto)
+int localizar_ABB(char code[],pNodo *padre, pNodo *actual, int ConCosto)
 {
     *padre = NULL;
     *actual = ABB;
 
-    while((*actual)!= NULL && (strcmp(code,(*actual)->a.codigo)!=0))
+    while(((*actual)!= NULL) && (strcmp(code,(*actual)->a.codigo)!=0))
     {
         *padre = *actual;
         if(strcmp(code,(*actual)->a.codigo)== -1 ) (*actual) = (*actual)->izq;
@@ -164,8 +201,8 @@ int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (1) //Entrada por arc
             (ABB)->izq = (ABB)->der = NULL;
             return 1;
         }
-        // Si el empleado.valor es menor que el que contiene el nodo padre, lo insertamosen la rama izquierda
-        else if(dat.valor < padre->a.valor)
+        // Si el articulo.codigo es menor que el que contiene el nodo padre, lo insertamosen la rama izquierda
+        else if( (strcmp(dat.codigo,padre->a.codigo)) < 0 )
         {
             actual = (Arbol)malloc(sizeof(aNodo));
             padre->izq = actual;
@@ -173,8 +210,8 @@ int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (1) //Entrada por arc
             actual->izq = actual->der = NULL;
             return 1;
         }
-        // Si el valor del empleado es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
-        else if(dat.valor > padre->a.valor)
+        // Si el articulo.codigo es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
+        else if( (strcmp(dat.codigo,padre->a.codigo)) > 0 )
         {
             actual = (Arbol)malloc(sizeof(aNodo));
             padre->der = actual;
@@ -197,32 +234,32 @@ void mostrarArbol(Arbol r)
             printf("\n Codigo: \t%s",r->a.codigo);
             printf("\n Articulo: \t%s",r->a.articulo);
             printf("\n Marca: \t%s",r->a.marca);
-            printf("\n Club: \t\t%s\n",r->a.club);
-            printf("\n Cantidad: \t\t%s\n",r->a.cantidad);
+            printf("\n Club: \t\t%s",r->a.club);
+            printf("\n Cantidad: \t%d",r->a.cantidad);
             printf("\n Valor: \t$%.2f",r->a.valor);
         printf("\n== HIJO IZQ == ");
         if(r->izq == NULL) printf("\nVacio.\n");
         else
         {
             //printf("\nDire Puntero %p",r->izq);
-            printf("\n Codigo: \t%s",r->a.codigo);
-            printf("\n Articulo: \t%s",r->a.articulo);
-            printf("\n Marca: \t%s",r->a.marca);
-            printf("\n Club: \t\t%s\n",r->a.club);
-            printf("\n Cantidad: \t\t%s\n",r->a.cantidad);
-            printf("\n Valor: \t$%.2f",r->a.valor);
+            printf("\n Codigo: \t%s",r->izq->a.codigo);
+            printf("\n Articulo: \t%s",r->izq->a.articulo);
+            printf("\n Marca: \t%s",r->izq->a.marca);
+            printf("\n Club: \t\t%s",r->izq->a.club);
+            printf("\n Cantidad: \t%d",r->izq->a.cantidad);
+            printf("\n Valor: \t$%.2f",r->izq->a.valor);
         }
         printf("\n== HIJO DER == ");
         if (r->der == NULL) printf("\nVacio.\n");
         else
         {
             //printf("\nDire Puntero %p",r->der);
-            printf("\n Codigo: \t%s",r->a.codigo);
-            printf("\n Articulo: \t%s",r->a.articulo);
-            printf("\n Marca: \t%s",r->a.marca);
-            printf("\n Club: \t\t%s\n",r->a.club);
-            printf("\n Cantidad: \t\t%s\n",r->a.cantidad);
-            printf("\n Valor: \t$%.2f",r->a.valor);
+            printf("\n Codigo: \t%s",r->der->a.codigo);
+            printf("\n Articulo: \t%s",r->der->a.articulo);
+            printf("\n Marca: \t%s",r->der->a.marca);
+            printf("\n Club: \t\t%s",r->der->a.club);
+            printf("\n Cantidad: \t%d",r->der->a.cantidad);
+            printf("\n Valor: \t$%.2f",r->der->a.valor);
         }
         mostrarArbol(r->izq);
         mostrarArbol(r->der);
