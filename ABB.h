@@ -72,8 +72,8 @@ void menu_ABB(int *op)
             fflush(stdin);
             scanf("%s",c);
             strupr(c);
-            //if(baja_LDS(c,0)==1) printf("\nEl articulo %s fue eliminado con exito\n\n",c);
-            //else printf("\nEl articulo %s no fue eliminado o no existe\n\n",c);
+            if(baja_ABB(c)==1) printf("\nEl articulo %s fue eliminado con exito\n\n",c);
+            else printf("\nEl articulo %s no fue eliminado o no existe\n\n",c);
             system("pause");
             break;
 
@@ -106,37 +106,39 @@ void menu_ABB(int *op)
             printf("\n[4] Mostrar Estructura\n");
             if (ABB == NULL) printf("\n\t Estructura VACIA...\n");
             if(ABB!=NULL){
-                printf("\n == Opciones de Mostrar Estructura del ABB: ==");
-                printf("\n\tOPCION 1) ---> Orden sugerido de Practico.");
-                printf("\n\tOPCION 2) ---> Orden sugerido de Practico (Dibujado solo codigos).");
-                printf("\n\tOPCION 3) ---> InOrden.");
-                printf("\n\tOPCION 4) ---> PreOrden.");
-                printf("\n\tOPCION 5) ---> PostOrden.\n");
+                encabezado();
+                printf("Opciones de Mostrar Estructura del ABB: \n");
+                printf("_________________________\n");
+                printf("\n\t[1] ---> Orden sugerido de Practico.");
+                printf("\n\t[2] ---> Orden sugerido de Practico (Dibujado solo codigos).");
+                printf("\n\t[3] ---> InOrden.");
+                printf("\n\t[4] ---> PreOrden.");
+                printf("\n\t[5] ---> PostOrden.\n");
                 scanf("%d",&ord);
-                printf("\n\t ----------LISTA DE ARTICULOS----------\n");
+                printf("\n\t --------------------LISTA DE ARTICULOS--------------------\n");
                 switch(ord){
                     case 1:
-                        printf("\t(Con Recorrido Como lo Sugiere el Practico)");
+                        printf("\t(Recorrido como lo sugiere el Practico)");
                         mostrarArbol(ABB);
                         break;
 
                     case 2:
-                        printf("    (Con Recorrido Como lo Sugiere el Practico (Dibujado)");
+                        printf("\t Recorrido como lo sugiere el Practico (Dibujado)\n");
                         mostrarArbolDibujado(ABB);
                         break;
 
                     case 3:
-                        printf("\t\t(Con Recorrido IN-ORDEN)");
+                        printf("\t\t(Recorrido IN-ORDEN)\n");
                         InOrden(ABB);
                         break;
 
                     case 4:
-                        printf("\t\t(Con Recorrido PRE-ORDEN)");
+                        printf("\t\t(Recorrido PRE-ORDEN)\n");
                         //PreOrden(abb);
                         break;
 
                     case 5:
-                        printf("\t\t(Con Recorrido POST-ORDEN)");
+                        printf("\t\t(Recorrido POST-ORDEN)\n");
                         //PostOrden(abb);
                         break;
                     }
@@ -174,14 +176,14 @@ int localizar_ABB(char code[],pNodo *padre, pNodo *actual, int ConCosto)
     else return 0; //Si no se encontro el empleado devuelve 0, y los punteros en donde quedaron
 }
 
-int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (1) //Entrada por archivo (0)
+int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (0) //Entrada por archivo (1)
 {
     int exito;
     pNodo padre = NULL;
     pNodo actual = ABB;
     exito=localizar_ABB(strupr(dat.codigo),&padre,&actual,0); //Uso LOCALIZAR para buscar el codigo del empleado en la estructura.
     printf("\n\t exito: %d \n",exito);
-    if (tipo==1 && exito==0)
+    if (tipo==0 && exito==0)
     {
         strcpy(dat.articulo,"Pantalon");
         strcpy(dat.marca,"Adidas Arg.");
@@ -223,13 +225,106 @@ int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (1) //Entrada por arc
 
 }
 
+int baja_ABB(char code[])
+{
+
+    pNodo padre,pa;
+    pNodo actual,ac;
+    pNodo temp;
+    int exito,n;
+    exito=localizar_ABB(code,&padre,&actual,0);
+    if (exito==0) return 0;
+    else
+    {
+        if(ABB == NULL) return 0; //significa que el arbol esta vacio, no se hacen bajaas
+        else if ((ABB->izq == NULL) && (ABB->der == NULL)) // significa q solo hay un nodo en el arbol, por lo tanto lo inicializo directamente
+        {
+            ABB=NULL;
+            free(actual);
+            //printf("\nCaso 1\n");
+        }
+        else if(padre==NULL && (actual->izq !=NULL) && (actual->der != NULL))                             //significa que el nodo es la raiz con dos hijos
+        {
+            temp=menorDeMayores(actual);
+            //printf("\nmayor de los menores: %s\n",temp->a.codigo);
+            localizar_ABB(temp->a.codigo,&pa,&ac,0);
+            actual->a = temp->a; //sobreescribo la informacion del nodo en cuestion a dar de baja, por la del mayordemenores
+            //printf("\npadre: %s\n",pa->a.codigo);
+            //printf("\nactual: %s\n",ac->a.codigo);
+            //printf("\nac<pa%d\n",strcmp(ac->a.codigo,pa->a.codigo));
+            if (strcmp(ac->a.codigo,pa->a.codigo)<=0)
+                (pa->izq) = ac->izq;
+            if (strcmp(ac->a.codigo,pa->a.codigo)>0)
+                (pa->der) = ac->izq;
+            free(temp);
+            //printf("\nCaso 2\n");
+        }
+        else if ((actual->izq !=NULL) && (actual->der != NULL))     //el nodo a eliminar tiene dos hijos
+        {
+            temp=menorDeMayores(actual);
+            localizar_ABB(temp->a.codigo,&pa,&ac,0);
+            actual->a = temp->a; //sobreescribo la informacion del nodo en cuestion a dar de baja, por la del mayordemenores
+            if (strcmp(ac->a.codigo,pa->a.codigo)<=0)
+                (pa->izq) = ac->izq;
+            if (strcmp(ac->a.codigo,pa->a.codigo)>0)
+                (pa->der) = ac->izq;
+            free(temp);
+            //printf("\nCaso 3\n");
+        }
+        else if ( (actual->izq != NULL) && (actual->der == NULL)) //el nodo a eliminar tiene un hijo izquierdo
+        {
+            if (padre==NULL) //quiero eliminar la raiz sin hijos derechos
+            {
+                ABB=actual->izq;
+                free(actual);
+                //printf("\nRaiz\n");
+
+            }
+            else {
+            if (strcmp(actual->a.codigo,padre->a.codigo)<0)
+                padre->izq = actual->izq;
+            if (strcmp(actual->a.codigo,padre->a.codigo)>0)
+                padre->der = actual->izq;
+            free(actual);
+            }
+            //printf("\nCaso 4\n");
+        }
+        else if ( (actual->izq == NULL) && (actual->der != NULL)) //el nodo a eliminar tiene un hijo derecho
+        {
+            if (padre==NULL) //quiero eliminar la raiz sin hijos izquierdos
+            {
+                ABB=actual->der;
+                free(actual);
+                //printf("\nRaiz\n");
+            }
+            else{
+            if (strcmp(actual->a.codigo,padre->a.codigo)<0)
+                padre->izq = actual->der;
+            if (strcmp(actual->a.codigo,padre->a.codigo)>0)
+                padre->der = actual->der;
+            free(actual);}
+            //printf("\nCaso 5\n");
+        }
+        else if (esHoja(actual))
+        {
+            if (strcmp(actual->a.codigo,padre->a.codigo)<0) //es descendiente izquierdo
+                padre->izq = NULL;
+            if (strcmp(actual->a.codigo,padre->a.codigo)>0) //es descendiente derecho
+                padre->der = NULL;
+            free(actual);
+            //printf("\nCaso 6\n");
+        }
+    }
+    return 1;
+}
+
 
 void mostrarArbol(Arbol r)
 {
     if (r !=NULL )
     {
         printf("\n\n-----------------------------------------\n");
-        printf("\n=== PADRE: === ");
+        printf("\n============ PADRE: ============ ");
         //printf("\nDire Puntero %p",r);
             printf("\n Codigo: \t%s",r->a.codigo);
             printf("\n Articulo: \t%s",r->a.articulo);
@@ -237,7 +332,7 @@ void mostrarArbol(Arbol r)
             printf("\n Club: \t\t%s",r->a.club);
             printf("\n Cantidad: \t%d",r->a.cantidad);
             printf("\n Valor: \t$%.2f",r->a.valor);
-        printf("\n== HIJO IZQ == ");
+        printf("\n============ HIJO IZQ ============ ");
         if(r->izq == NULL) printf("\nVacio.\n");
         else
         {
@@ -249,7 +344,7 @@ void mostrarArbol(Arbol r)
             printf("\n Cantidad: \t%d",r->izq->a.cantidad);
             printf("\n Valor: \t$%.2f",r->izq->a.valor);
         }
-        printf("\n== HIJO DER == ");
+        printf("\n============ HIJO DER ============ ");
         if (r->der == NULL) printf("\nVacio.\n");
         else
         {
@@ -312,11 +407,33 @@ void InOrden(Arbol r)  //imprime todos los codigos y valor de los empleados
         printf("\n Codigo: \t%s",r->a.codigo);
         printf("\n Articulo: \t%s",r->a.articulo);
         printf("\n Marca: \t%s",r->a.marca);
-        printf("\n Club: \t\t%s\n",r->a.club);
-        printf("\n Cantidad: \t\t%s\n",r->a.cantidad);
-        printf("\n Valor: \t$%.2f",r->a.valor);
+        printf("\n Club: \t\t%s",r->a.club);
+        printf("\n Cantidad: \t%d",r->a.cantidad);
+        printf("\n Valor: \t$%.2f\n",r->a.valor);
         InOrden (r->der);
     }
+}
+
+int esHoja(pNodo r) //Si un articulo (nodo) es hoja devuelve 1
+{
+    return ((r->der == NULL) && (r->izq == NULL));
+}
+
+Arbol buscarMinimo(Arbol p)
+{
+    while((p)!=NULL)
+    {
+        if((p)->izq==NULL) return (p);
+        else (p)=(p)->izq;
+    }
+    return p;
+}
+
+Arbol menorDeMayores(Arbol p)
+{
+    if((p)==NULL) return p;
+    if((p)->der==NULL) return NULL;
+    return buscarMinimo ((p)->der);
 }
 
 /*int pertenece_LSD (char codArt [])

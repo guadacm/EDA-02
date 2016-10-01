@@ -36,9 +36,16 @@ void encabezado();
 void borrar_salto(Articulo *art);
 // -- A.B.B.
 int localizar_ABB(char code[],aNodo **padre, aNodo **actual, int ConCosto);
+int alta_ABB(Articulo,int);
+int baja_ABB(char code[]);
+Arbol menorDeMayores(Arbol p);
+Arbol buscarMinimo(Arbol p);
+int esHoja(pNodo r);
 void mostrarArbol(Arbol r);
 void mostrarArbolDibujado(Arbol r);
 void InOrden(Arbol r);
+void PostOrden(Arbol r);
+void PreOrden(Arbol r);
 
 // -- L.I.
 
@@ -85,7 +92,7 @@ void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
             switch(estr)
             {
                 case 1:
-                    alta_ABB(nuevo,0);
+                    alta_ABB(nuevo,1);
                     break;
                 case 2:
 
@@ -169,10 +176,10 @@ void lectura_archivo_operaciones()
             switch(cod_op)
             {
                 case 1:
-
+                    alta_ABB(nuevo,1);
                     break;
                 case 2:
-
+                    baja_ABB(nuevo.codigo);
                     break;
                 case 3:
 
