@@ -3,14 +3,13 @@
 #define ABB_H_INCLUDED
 
 
-
 char c[8];
 Articulo temp;
 int celda;
 
 void menu_ABB(int *op)
 {
-    //cant_ABB = 0;
+    cant_ABB = 0;
 
     while (*op != 0)
     {
@@ -56,10 +55,8 @@ void menu_ABB(int *op)
             printf(" Valor($):\t");
             fflush(stdin);
             scanf("%f",&nuevo.valor);
-            //if(alta_LSD(nuevo) == 1) printf("\n Enhorabuena tio, El articulo fue agregado con exito\n\n");
-            //else printf("\nYa existe ese codigo, ingresaste los datos al pe :( \n\n");
-            alta_ABB(nuevo,1);
-
+            if(alta_ABB(nuevo) == 1) printf("\n El articulo fue agregado con exito\n\n");
+            else printf("\nError, el codigo %s ya existe \n\n",nuevo.codigo);
             system("pause");
             break;
 
@@ -72,7 +69,7 @@ void menu_ABB(int *op)
             fflush(stdin);
             scanf("%s",c);
             strupr(c);
-            if(baja_ABB(c)==1) printf("\nEl articulo %s fue eliminado con exito\n\n",c);
+            if(baja_ABB(c,0)==1) printf("\nEl articulo %s fue eliminado con exito\n\n",c);
             else printf("\nEl articulo %s no fue eliminado o no existe\n\n",c);
             system("pause");
             break;
@@ -88,10 +85,10 @@ void menu_ABB(int *op)
             fflush(stdin);
             scanf("%s",c);
             strupr(c);
-            //temp=evocar_LSD(c,&aux);
+            temp=evocar_ABB(c,&aux);
             if (aux==1)
             {
-                //imprimirArt(temp);
+                imprimirArt(temp);
             }
             else printf("\n\t El articulo %s no existe\n\n",c);
             system("pause");
@@ -114,11 +111,13 @@ void menu_ABB(int *op)
                 printf("\n\t[3] ---> InOrden.");
                 printf("\n\t[4] ---> PreOrden.");
                 printf("\n\t[5] ---> PostOrden.\n");
+                fflush(stdin);
                 scanf("%d",&ord);
-                printf("\n\t --------------------LISTA DE ARTICULOS--------------------\n");
+                encabezado();
+                printf("\n-------------------------- LISTA DE ARTICULOS --------------------------\n");
                 switch(ord){
                     case 1:
-                        printf("\t(Recorrido como lo sugiere el Practico)");
+                        printf("\t\t(Recorrido como lo sugiere el Practico)");
                         mostrarArbol(ABB);
                         break;
 
@@ -143,7 +142,7 @@ void menu_ABB(int *op)
                         break;
                     }
             }
-
+            printf("\n");
             system("pause");
             break;
 
@@ -161,40 +160,33 @@ void menu_ABB(int *op)
 
 }
 
-int localizar_ABB(char code[],pNodo *padre, pNodo *actual, int ConCosto)
+int localizar_ABB(char codArt[],Arbol *padre, Arbol *actual, int ConCosto)
 {
     *padre = NULL;
     *actual = ABB;
 
-    while(((*actual)!= NULL) && (strcmp(code,(*actual)->a.codigo)!=0))
+    while(((*actual)!= NULL) && (strcmp(codArt,(*actual)->a.codigo)!=0))
     {
         *padre = *actual;
-        if(strcmp(code,(*actual)->a.codigo)== -1 ) (*actual) = (*actual)->izq;
-        else if(strcmp(code,(*actual)->a.codigo)==1) (*actual) = (*actual)->der;
+        if(strcmp(codArt,(*actual)->a.codigo)== -1 ) (*actual) = (*actual)->izq;
+        else if(strcmp(codArt,(*actual)->a.codigo)==1) (*actual) = (*actual)->der;
     }
-    if((*actual)!=NULL) return 1; //Si se encontro el empleado, no hace nada y sale de la funcion
-    else return 0; //Si no se encontro el empleado devuelve 0, y los punteros en donde quedaron
+    if((*actual)!=NULL) return 1; //Si se encontro el articulo, no hace nada y sale de la funcion
+    else return 0; //Si no se encontro el articulo devuelve 0, y los punteros en donde quedaron
 }
 
-int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (0) //Entrada por archivo (1)
+int alta_ABB(Articulo dat)
 {
     int exito;
-    pNodo padre = NULL;
-    pNodo actual = ABB;
-    exito=localizar_ABB(strupr(dat.codigo),&padre,&actual,0); //Uso LOCALIZAR para buscar el codigo del empleado en la estructura.
-    printf("\n\t exito: %d \n",exito);
-    if (tipo==0 && exito==0)
-    {
-        strcpy(dat.articulo,"Pantalon");
-        strcpy(dat.marca,"Adidas Arg.");
-        strcpy(dat.club,"Boca Js");
-        strcpy(dat.codigo,"AAA111");
-        dat.cantidad = 102;
-        dat.valor = 789.96;
-    }
+    Arbol padre = NULL;
+    Arbol actual = ABB;
+    if (cant_ABB >= 170 ) return 0;
+    exito=localizar_ABB(dat.codigo,&padre,&actual,0); //Uso LOCALIZAR para buscar el codigo del articulo en la estructura.
+    printf("\n\t exito: %d",exito);
     if ( (exito == 1) || (malloc(sizeof(aNodo))==NULL) ) return 0; //localizar devolvio true, por lo tanto no se hace el alta.
     else //localizar devolvio false, se procede a realizar el alta.
     {
+        cant_ABB++;
         // Si padre es NULL, entonces el arbol estaba vacio, el nuevo nodo sera la raiz
         if((padre)==NULL)
         {
@@ -203,7 +195,7 @@ int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (0) //Entrada por arc
             (ABB)->izq = (ABB)->der = NULL;
             return 1;
         }
-        // Si el articulo.codigo es menor que el que contiene el nodo padre, lo insertamosen la rama izquierda
+        // Si el articulo.codigo es menor que el que contiene el nodo padre, lo insertamos en la rama izquierda
         else if( (strcmp(dat.codigo,padre->a.codigo)) < 0 )
         {
             actual = (Arbol)malloc(sizeof(aNodo));
@@ -222,31 +214,33 @@ int alta_ABB(Articulo dat, int tipo) //Entrada por teclado (0) //Entrada por arc
             return 1;
         }
     }
-
 }
 
-int baja_ABB(char code[])
+int baja_ABB(char codArt[], int tipo)
 {
-
-    pNodo padre,pa;
-    pNodo actual,ac;
-    pNodo temp;
+    Arbol padre,pa;
+    Arbol actual,ac;
+    Arbol temp;
+    char c = 'S';
     int exito,n;
-    exito=localizar_ABB(code,&padre,&actual,0);
+    exito=localizar_ABB(codArt,&padre,&actual,0);
     if (exito==0) return 0;
     else
     {
-        if(ABB == NULL) return 0; //significa que el arbol esta vacio, no se hacen bajaas
-        else if ((ABB->izq == NULL) && (ABB->der == NULL)) // significa q solo hay un nodo en el arbol, por lo tanto lo inicializo directamente
+        //if(ABB == NULL) return 0; //significa que el arbol esta vacio, no se hacen bajaas (no es necsario, ya que localizar seria 1 antes de aca)
+        if(tipo == 0) c = confirmacion_baja(actual->a);
+        if(c == 'N' || c == 'n' ) return 0;
+
+        if ((ABB->izq == NULL) && (ABB->der == NULL)) // significa q solo hay un nodo en el arbol, por lo tanto lo inicializo directamente
         {
             ABB=NULL;
             free(actual);
             //printf("\nCaso 1\n");
         }
-        else if(padre==NULL && (actual->izq !=NULL) && (actual->der != NULL))                             //significa que el nodo es la raiz con dos hijos
+        else if(padre==NULL && ((actual->izq !=NULL) && (actual->der != NULL)))                             //significa que el nodo es la raiz con dos hijos
         {
             temp=menorDeMayores(actual);
-            //printf("\nmayor de los menores: %s\n",temp->a.codigo);
+            //printf("\nmenor de los mayores: %s\n",temp->a.codigo);
             localizar_ABB(temp->a.codigo,&pa,&ac,0);
             actual->a = temp->a; //sobreescribo la informacion del nodo en cuestion a dar de baja, por la del mayordemenores
             //printf("\npadre: %s\n",pa->a.codigo);
@@ -278,7 +272,6 @@ int baja_ABB(char code[])
                 ABB=actual->izq;
                 free(actual);
                 //printf("\nRaiz\n");
-
             }
             else {
             if (strcmp(actual->a.codigo,padre->a.codigo)<0)
@@ -315,6 +308,7 @@ int baja_ABB(char code[])
             //printf("\nCaso 6\n");
         }
     }
+    cant_ABB--;
     return 1;
 }
 
@@ -323,8 +317,8 @@ void mostrarArbol(Arbol r)
 {
     if (r !=NULL )
     {
-        printf("\n\n-----------------------------------------\n");
-        printf("\n============ PADRE: ============ ");
+        printf("\n\n__________________________________________\n");
+        printf("\n============= PADRE: ============= ");
         //printf("\nDire Puntero %p",r);
             printf("\n Codigo: \t%s",r->a.codigo);
             printf("\n Articulo: \t%s",r->a.articulo);
@@ -333,7 +327,7 @@ void mostrarArbol(Arbol r)
             printf("\n Cantidad: \t%d",r->a.cantidad);
             printf("\n Valor: \t$%.2f",r->a.valor);
         printf("\n============ HIJO IZQ ============ ");
-        if(r->izq == NULL) printf("\nVacio.\n");
+        if(r->izq == NULL) printf("\nVacio.");
         else
         {
             //printf("\nDire Puntero %p",r->izq);
@@ -345,7 +339,7 @@ void mostrarArbol(Arbol r)
             printf("\n Valor: \t$%.2f",r->izq->a.valor);
         }
         printf("\n============ HIJO DER ============ ");
-        if (r->der == NULL) printf("\nVacio.\n");
+        if (r->der == NULL) printf("\nVacio.");
         else
         {
             //printf("\nDire Puntero %p",r->der);
@@ -366,7 +360,7 @@ void mostrarArbolDibujado(Arbol r)
 {
     if (r != NULL )
     {
-        printf("\n--------------------------------------------------------\n");
+        printf("\n______________________________________________________________\n");
         printf("\t\t\tPADRE:");
         //printf("\n\t\t\tValor: %f", r->a.valor);
         printf("\n\t\t\tCodigo: %s\n",r->a.codigo);
@@ -396,7 +390,7 @@ void mostrarArbolDibujado(Arbol r)
 }
 
 
-void InOrden(Arbol r)  //imprime todos los codigos y valor de los empleados
+void InOrden(Arbol r)  //imprime todos los codigos y valor de los articulos
 {
     if (r != NULL)
     {
@@ -414,7 +408,44 @@ void InOrden(Arbol r)  //imprime todos los codigos y valor de los empleados
     }
 }
 
-int esHoja(pNodo r) //Si un articulo (nodo) es hoja devuelve 1
+void PreOrden(Arbol r)  // PREORDEN
+{
+    if (r != NULL)
+    {
+        //printf("\n\n== DATOS ARTICULO Codigo(%s) ==",r->a.codigo);
+        //printf ("\nValor: %f", r->e.valor);
+        //printf ("\nCodigo: %s",r->e.codigo);
+        printf("\n Codigo: \t%s",r->a.codigo);
+        printf("\n Articulo: \t%s",r->a.articulo);
+        printf("\n Marca: \t%s",r->a.marca);
+        printf("\n Club: \t\t%s",r->a.club);
+        printf("\n Cantidad: \t%d",r->a.cantidad);
+        printf("\n Valor: \t$%.2f\n",r->a.valor);
+        PreOrden (r->izq);
+        PreOrden (r->der);
+    }
+}
+
+void PostOrden(Arbol r)  // POSTORDEN
+{
+    if (r != NULL)
+    {
+        PostOrden (r->izq);
+        PostOrden (r->der);
+        //printf("\n\n== DATOS ARTICULO Codigo(%s) ==",r->a.codigo);
+        //printf ("\nValor: %f", r->e.valor);
+        //printf ("\nCodigo: %s",r->e.codigo);
+        printf("\n Codigo: \t%s",r->a.codigo);
+        printf("\n Articulo: \t%s",r->a.articulo);
+        printf("\n Marca: \t%s",r->a.marca);
+        printf("\n Club: \t\t%s",r->a.club);
+        printf("\n Cantidad: \t%d",r->a.cantidad);
+        printf("\n Valor: \t$%.2f\n",r->a.valor);
+
+    }
+}
+
+int esHoja(Arbol r) //Si un articulo (nodo) es hoja devuelve 1
 {
     return ((r->der == NULL) && (r->izq == NULL));
 }
@@ -436,115 +467,15 @@ Arbol menorDeMayores(Arbol p)
     return buscarMinimo ((p)->der);
 }
 
-/*int pertenece_LSD (char codArt [])
-{
-    int exito,celda;
-    strupr(codArt);
-    exito=localizar_LSD(codArt,&celda,0);
-    return exito;
-}
-
-int localizar_LSD(char codArt[], int *i, int conCosto)            //Localizacion Exitosa=1, noExitosa=0, i=posicion donde esta el elemento o deberia estar
-{
-    //strupr(codArt);
-    (*i)=0;
-    while((*i)<cant_LSD && (strcmp(LSD[*i].codigo,codArt)!=0))
-    {
-        (*i)++;
-    }
-    if (((*i)<cant_LSD)==1 && conCosto==1) {
-            if (maximo_cons_exito_LSD < (*i)){ maximo_cons_exito_LSD = (*i); }
-            celd_cons_exito_LSD+=(*i);}
-
-    if (((*i)<cant_LSD)==0 && conCosto==1){
-            if (maximo_cons_fracaso_LSD < (*i)){ maximo_cons_fracaso_LSD = (*i); }
-            celd_cons_fracaso_LSD+=(*i);}
-
-    return (*i)<cant_LSD ;
-}
-
-
-int alta_LSD(Articulo nuevo) 	/// return(1)=exito  //return(0)=fracaso
-{
-    int celda,exito;
-    exito=localizar_LSD(nuevo.codigo,&celda,0);
-    if (cant_LSD==DIM)
-    {
-        return 0;
-    }
-    if ( exito == 0)
-    {
-        LSD[celda]=nuevo;
-        maximo_alta_corr_LSD+=0;
-        cant_LSD++;
-        cant_altas_LSD++;
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-int baja_LSD(char codArt[], int tipo)
-{
-    int celda,exito;
-    char c;
-    strupr(codArt);
-    exito=localizar_LSD(codArt,&celda,0);
-    if ( exito == 1)
-    {
-        if(tipo == 0)
-           c = confirmacion_baja(LSD[celda]);
-        if(c == 'S' || c == 's' || tipo == 1 )
-        {
-            if (celda==cant_LSD-1)
-            {
-
-                celd_corr_baja_LSD+=0;
-                cant_LSD--;
-                return 1;
-            }
-            strcpy(LSD[celda].codigo,LSD[cant_LSD-1].codigo);
-            strcpy(LSD[celda].articulo,LSD[cant_LSD-1].articulo);
-            strcpy(LSD[celda].marca,LSD[cant_LSD-1].marca);
-            strcpy(LSD[celda].club,LSD[cant_LSD-1].club);
-            LSD[celda].cantidad=LSD[cant_LSD-1].cantidad;
-            LSD[celda].valor=LSD[cant_LSD-1].valor;
-            cant_LSD--;
-            cant_bajas_LSD++;
-            celd_corr_baja_LSD+=1;
-            if (maximo_baja_corr_LSD < 1) maximo_baja_corr_LSD+=1;
-            return 1; // exito dando de baja
-        }
-    }
-    else
-    {
-        return 0; //fracaso dando de baja
-    }
-
-}
-
-Articulo evocar_LSD (char codArt[],int *exito)
-{
-    int ex,celda;
+Articulo evocar_ABB(char codArt[],int *exito){
+    Arbol padre,actual;
     Articulo temp;
-    strupr(codArt);
-    ex=localizar_LSD(codArt,&celda,1);
-    if (ex==1)
-    {
-        *exito=1;
-        cant_consultas_exito_LSD++;
-        return LSD[celda];
-    }
-    else
-    {
-        *exito=0;
-        cant_consultas_fracaso_LSD++;
-        return temp;
-    }
+    (*exito)=localizar_ABB(codArt,&padre,&actual,0);
+    if (*exito) return actual->a;
+    else return temp;
 }
-*/
+
+
 
 
 #endif // ABB_H_INCLUDED

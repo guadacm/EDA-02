@@ -51,21 +51,25 @@ void administracion()
 // -- MENU COMPARACION
 void comparacion()
 {
+    cant_ABB = 0;
+
 
     encabezado();
     printf("\t       Comparacion de estructuras       \n"
            "\t       --------------------------       \n");
-    //lectura_archivo_operaciones();
+    lectura_archivo_operaciones();
 
     encabezado();
     printf("\t       Comparacion de estructuras       \n"
-           "\t\tTotal de Articulos: 0\n"
+           "\t\tTotal de Articulos: %d\n"
            "\t       --------------------------       \n"
 
            "\nCant. de Altas:\t\t\tABB: 0 \tLI: 0 "
            "\nCant. de Bajas:\t\t\tABB: 0 \tLI: 0 "
            "\nCant. de Evocaciones-Exito:\tABB: 0 \tLI: 0 "
-           "\nCant. de Evocaciones-Fracaso:\tABB: 0 \tLI: 0\n");
+           "\nCant. de Evocaciones-Fracaso:\tABB: 0 \tLI: 0\n"
+           ,cant_ABB
+           );
 
     printf("\nCostos de Altas"
            "\n---------------"

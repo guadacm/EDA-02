@@ -21,10 +21,11 @@ typedef struct Nodo
     struct Nodo* der;
 } aNodo;
 
-typedef aNodo* pNodo;
+//typedef aNodo* pNodo;
 typedef aNodo* Arbol;
 
 Arbol ABB = NULL;
+int cant_ABB = 0;
 
 // -- L.I.
 
@@ -34,13 +35,15 @@ Arbol ABB = NULL;
 /* PROTOTIPOS */
 void encabezado();
 void borrar_salto(Articulo *art);
+
 // -- A.B.B.
-int localizar_ABB(char code[],aNodo **padre, aNodo **actual, int ConCosto);
-int alta_ABB(Articulo,int);
-int baja_ABB(char code[]);
+int localizar_ABB(char code[],Arbol *padre, Arbol *actual, int ConCosto);
+int alta_ABB(Articulo);
+int baja_ABB(char code[],int);
+Articulo evocar_ABB(char [], int*);
 Arbol menorDeMayores(Arbol p);
 Arbol buscarMinimo(Arbol p);
-int esHoja(pNodo r);
+int esHoja(Arbol r);
 void mostrarArbol(Arbol r);
 void mostrarArbolDibujado(Arbol r);
 void InOrden(Arbol r);
@@ -92,10 +95,10 @@ void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
             switch(estr)
             {
                 case 1:
-                    alta_ABB(nuevo,1);
+                    alta_ABB(nuevo);
                     break;
                 case 2:
-
+                    //alta_LI(nuevo);
                     break;
 
             }
@@ -114,10 +117,14 @@ char confirmacion_baja(Articulo baja)
     printf("\n Valor: \t$%.2f", baja.valor);
     printf("\n Cantidad: \t%i", baja.cantidad);
     printf("\n Club: \t\t%s", baja.club);
-
     printf("\n\nEsta seguro que quiere eliminar este articulo? S/N: ");
     fflush(stdin);
     scanf("%c", &c);
+    while (!(c=='S' || c=='s' || c=='N' || c=='n')){
+        printf("\nIntente de nuevo. Solo se admiten las letras ( S - s - N - n )\n");
+        fflush(stdin);
+        scanf("%c", &c);
+        }
     return c;
 }
 
@@ -148,7 +155,7 @@ void borrar_salto(Articulo *art) //Borra en '\n' que almacena fgets.
 
 void lectura_archivo_operaciones()
 {
-    int cod_op;
+    int cod_op,aux;
     Articulo nuevo;
     FILE *fp;
     if((fp = fopen("Operaciones.txt", "r")) == NULL)
@@ -176,13 +183,13 @@ void lectura_archivo_operaciones()
             switch(cod_op)
             {
                 case 1:
-                    alta_ABB(nuevo,1);
+                    alta_ABB(nuevo);
                     break;
                 case 2:
-                    baja_ABB(nuevo.codigo);
+                    baja_ABB(nuevo.codigo,1);
                     break;
                 case 3:
-
+                    evocar_ABB(nuevo.codigo,&aux);
                     break;
 
             }
