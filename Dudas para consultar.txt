@@ -1,0 +1,7 @@
+-----------ABB ----------:
+
+*Cuando salgo de "administracion de estructuras" y voy a "comparacion de estr..." 
+inicializo el arbol con: ABB = NULL; (pero la memoria sigue ocupada, porque no hice free de
+cada nodo del abol, Como solucionar eso?)
+
+----------- LI ----------:

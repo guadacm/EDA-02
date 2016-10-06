@@ -51,6 +51,8 @@ void administracion()
 // -- MENU COMPARACION
 void comparacion()
 {
+    limpiar_contadores();
+    ABB = NULL;
     cant_ABB = 0;
 
 
@@ -64,11 +66,11 @@ void comparacion()
            "\t\tTotal de Articulos: %d\n"
            "\t       --------------------------       \n"
 
-           "\nCant. de Altas:\t\t\tABB: 0 \tLI: 0 "
-           "\nCant. de Bajas:\t\t\tABB: 0 \tLI: 0 "
-           "\nCant. de Evocaciones-Exito:\tABB: 0 \tLI: 0 "
-           "\nCant. de Evocaciones-Fracaso:\tABB: 0 \tLI: 0\n"
-           ,cant_ABB
+           "\nCant. de Altas:\t\t\tABB: %d \tLI: 0 "
+           "\nCant. de Bajas:\t\t\tABB: %d \tLI: 0 "
+           "\nCant. de Evocaciones-Exito:\tABB: %d \tLI: 0 "
+           "\nCant. de Evocaciones-Fracaso:\tABB: %d \tLI: 0\n"
+           ,cant_ABB,altas_abb,bajas_abb,evoE_abb,evoF_abb
            );
 
     printf("\nCostos de Altas"

@@ -21,12 +21,15 @@ typedef struct Nodo
     struct Nodo* der;
 } aNodo;
 
-//typedef aNodo* pNodo;
 typedef aNodo* Arbol;
 
-Arbol ABB = NULL;
-int cant_ABB = 0;
+Arbol ABB = NULL;   //Creacion de Arbol binario con nombre ABB, apuntando a null inicialmente
 
+int cant_ABB = 0;
+int altas_abb = 0;
+int bajas_abb = 0;
+int evoE_abb = 0;
+int evoF_abb = 0;
 // -- L.I.
 
 /* FIN VARIABLES */
@@ -35,6 +38,7 @@ int cant_ABB = 0;
 /* PROTOTIPOS */
 void encabezado();
 void borrar_salto(Articulo *art);
+void limpiar_contadores();
 
 // -- A.B.B.
 int localizar_ABB(char code[],Arbol *padre, Arbol *actual, int ConCosto);
@@ -59,25 +63,32 @@ void imprimirArt(Articulo Art)
     printf("\n Codigo: \t%s"
            "\n Articulo: \t%s"
            "\n Marca: \t%s"
-           "\n Valor: \t$%.2f"
-           "\n Cantidad: \t%i"
-           "\n Club: \t\t%s\n",
+           "\n Club: \t\t%s"
+           "\n Cantidad: \t%d"
+           "\n Valor: \t$%.2f\n",
             Art.codigo,
             Art.articulo,
             Art.marca,
-            Art.valor,
+            Art.club,
             Art.cantidad,
-            Art.club);
+            Art.valor);
 }
 
+void limpiar_contadores()
+{
+    cant_ABB = 0;
+    altas_abb = 0;
+    bajas_abb = 0;
+    evoE_abb = 0;
+    evoF_abb = 0;
 
-
+}
 void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
 {
     Articulo nuevo;
     FILE *fp;
 
-    if ((fp = fopen("PruebaArticulos.txt", "r")) == NULL)
+    if ((fp = fopen("Articulos.txt", "r")) == NULL)
         printf("\n\nERROR: no se pudo abrir el archivo\n\n");
     else
     {
