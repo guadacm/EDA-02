@@ -31,6 +31,8 @@ int bajas_abb = 0;
 int evoE_abb = 0;
 int evoF_abb = 0;
 // -- L.I.
+Articulo *LI[DIM];
+int cant_LI = 0;
 
 /* FIN VARIABLES */
 
@@ -55,6 +57,11 @@ void PostOrden(Arbol r);
 void PreOrden(Arbol r);
 
 // -- L.I.
+void mostrar_LI();
+int localizar_LI(char codArt[], int *posicion, int conCosto);
+Articulo evocar_LI(char codArt[]);
+int alta_LI(Articulo nuevo);
+int baja_LI(char codArt[], int entrada);
 
 /* FIN PROTOTIPOS */
 
@@ -63,15 +70,15 @@ void imprimirArt(Articulo Art)
     printf("\n Codigo: \t%s"
            "\n Articulo: \t%s"
            "\n Marca: \t%s"
-           "\n Club: \t\t%s"
+           "\n Valor: \t$%.2f"
            "\n Cantidad: \t%d"
-           "\n Valor: \t$%.2f\n",
+           "\n Club: \t\t%s\n",
             Art.codigo,
             Art.articulo,
             Art.marca,
-            Art.club,
+            Art.valor,
             Art.cantidad,
-            Art.valor);
+            Art.club);
 }
 
 void limpiar_contadores()
@@ -83,6 +90,7 @@ void limpiar_contadores()
     evoF_abb = 0;
 
 }
+
 void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
 {
     Articulo nuevo;
@@ -109,7 +117,7 @@ void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
                     alta_ABB(nuevo);
                     break;
                 case 2:
-                    //alta_LI(nuevo);
+                    alta_LI(nuevo);
                     break;
 
             }

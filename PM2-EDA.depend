@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1476045804 source:c:\users\guada\desktop\pm\pm2-eda\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"estructuras.h"
+	"ABB.h"
+	"LI.h"
+
+1476054582 c:\users\guada\desktop\pm\pm2-eda\estructuras.h
+
+1476044789 c:\users\guada\desktop\pm\pm2-eda\abb.h
+
+1476054582 c:\users\guada\desktop\pm\pm2-eda\li.h
+

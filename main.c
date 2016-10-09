@@ -31,12 +31,12 @@ void administracion()
     while (opcion !=0)
     {
         encabezado();
-        printf("Administracion de estructuras\n");
-        printf("_____________________________\n");
-        printf("\n[1] Arbol Binario de Busqueda (A.B.B.)");
-        printf("\n[2] Lista Invertida (L.I.)");
-        printf("\n\n[0] Volver\n");
-        printf("\nElija una opcion: ");
+        printf("\n\t      Administracion de estructuras      \n"
+                 "\t      -----------------------------      \n"
+                "\n[1] Arbol Binario de Busqueda (A.B.B.)"
+                "\n[2] Lista Invertida (L.I.)"
+                "\n\n[0] Volver\n"
+                "\nElija una opcion: ");
         scanf("%d", &opcion);
         switch (opcion)
         {
