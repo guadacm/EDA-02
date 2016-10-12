@@ -12,8 +12,8 @@ void menu_LI(int *op)
     while (*op != 0)
     {
         encabezado();
-        printf("\n\t       Lista Invertida        \n"
-                 "\t       ---------------        \n"
+        printf("\n\t\t       Lista Invertida        \n"
+                 "\t\t       ---------------        \n"
                "\n[1] Nuevo articulo"
                "\n[2] Eliminar articulo"
                "\n[3] Consultar articulo"
@@ -200,6 +200,7 @@ int alta_LI(Articulo nuevo) //-- DEVUELVE: 1.Exito 0.Fracaso.
 //            total_corrimientos_alta_LSO = total_corrimientos_alta_LSO + corrimientos;
 //            if(maximo_alta_LSO < corrimientos)
 //                maximo_alta_LSO = corrimientos;
+            altas_LI++;
             return 1;
         }
         else
@@ -237,6 +238,7 @@ int baja_LI(char codArt[], int entrada) //-- DEVUELVE: 1.Exito 0.Fracaso
 //                total_corrimientos_baja_LSO = total_corrimientos_baja_LSO + corrimientos;
 //                if(maximo_baja_LSO < corrimientos)
 //                    maximo_baja_LSO = corrimientos;
+                bajas_LI++;
                 return 1;
             }
             else

@@ -104,20 +104,22 @@ void menu_ABB(int *op)
             if (ABB == NULL) printf("\n\t Estructura VACIA...\n");
             if(ABB!=NULL){
                 encabezado();
+                j=1;
                 printf("Opciones de Mostrar Estructura del ABB: \n");
                 printf("_________________________\n");
-                printf("\n\t[1] ---> Orden sugerido de Practico.");
-                printf("\n\t[2] ---> Orden sugerido de Practico (Dibujado solo codigos).");
-                printf("\n\t[3] ---> InOrden.");
-                printf("\n\t[4] ---> PreOrden.");
-                printf("\n\t[5] ---> PostOrden.\n");
+                printf("\n [1] Orden sugerido de Practico.");
+                printf("\n [2] Orden sugerido de Practico (Dibujado solo codigos).");
+                printf("\n [3] InOrden.");
+                printf("\n [4] PreOrden.");
+                printf("\n [5] PostOrden.");
+                printf("\n\n Elija una Opcion: ");
                 fflush(stdin);
                 scanf("%d",&ord);
                 encabezado();
                 printf("\n-------------------------- LISTA DE ARTICULOS --------------------------\n");
                 switch(ord){
                     case 1:
-                        printf("\t\t(Recorrido como lo sugiere el Practico)");
+                        printf("     \t\t(Recorrido como lo sugiere el Practico)");
                         mostrarArbol(ABB);
                         break;
 
@@ -162,14 +164,21 @@ void menu_ABB(int *op)
 
 int localizar_ABB(char codArt[],Arbol *padre, Arbol *actual, int ConCosto)
 {
+    if (ConCosto == 1) consultados_abb = 0;
     *padre = NULL;
     *actual = ABB;
 
     while(((*actual)!= NULL) && (strcmp(codArt,(*actual)->a.codigo)!=0))
     {
         *padre = *actual;
-        if(strcmp(codArt,(*actual)->a.codigo)== -1 ) (*actual) = (*actual)->izq;
-        else if(strcmp(codArt,(*actual)->a.codigo)==1) (*actual) = (*actual)->der;
+        if(strcmp(codArt,(*actual)->a.codigo)== -1 ) {
+                (*actual) = (*actual)->izq;
+                if (ConCosto == 1) consultados_abb++;
+        }
+        else if(strcmp(codArt,(*actual)->a.codigo)==1) {
+                (*actual) = (*actual)->der;
+                if (ConCosto == 1) consultados_abb++;
+        }
     }
     if((*actual)!=NULL) return 1; //Si se encontro el articulo, no hace nada y sale de la funcion
     else return 0; //Si no se encontro el articulo devuelve 0, y los punteros en donde quedaron
@@ -193,6 +202,8 @@ int alta_ABB(Articulo dat)
             ABB = (Arbol)malloc(sizeof(aNodo));
             (ABB)->a = dat;
             (ABB)->izq = (ABB)->der = NULL;
+            alta_nCorr_abb += 0.5;
+            if (alta_MCorr_abb < 0.5) alta_MCorr_abb = 0.5;
             return 1;
         }
         // Si el articulo.codigo es menor que el que contiene el nodo padre, lo insertamos en la rama izquierda
@@ -202,6 +213,8 @@ int alta_ABB(Articulo dat)
             padre->izq = actual;
             actual->a = dat;
             actual->izq = actual->der = NULL;
+            alta_nCorr_abb += 0.5;
+            if (alta_MCorr_abb < 0.5) alta_MCorr_abb = 0.5;
             return 1;
         }
         // Si el articulo.codigo es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
@@ -211,6 +224,8 @@ int alta_ABB(Articulo dat)
             padre->der = actual;
             actual->a = dat;
             actual->izq = actual->der = NULL;
+            alta_nCorr_abb += 0.5;
+            if (alta_MCorr_abb < 0.5) alta_MCorr_abb = 0.5;
             return 1;
         }
     }
@@ -235,6 +250,8 @@ int baja_ABB(char codArt[], int tipo)
         {
             ABB=NULL;
             free(actual);
+            baja_nCorr_abb += 0.5;
+            if (baja_MCorr_abb < 0.5) baja_MCorr_abb = 0.5;
             //printf("\nCaso 1\n");
         }
 
@@ -247,8 +264,9 @@ int baja_ABB(char codArt[], int tipo)
                 (pa->izq) = ac->der;
             if (strcmp(ac->a.codigo,pa->a.codigo)>=0)       // cuando su hijo derecho es el menorDeMayores
                 (pa->der) = ac->der;
-
             free(temp);
+            baja_nCorr_abb += 1.5;
+            if (baja_MCorr_abb < 1.5) baja_MCorr_abb = 1.5;
             //printf("\nCaso 2\n");
         }
         else if ( (actual->izq != NULL) && (actual->der == NULL)) //el nodo a eliminar tiene un hijo izquierdo
@@ -257,6 +275,8 @@ int baja_ABB(char codArt[], int tipo)
             {
                 ABB=actual->izq;
                 free(actual);
+                baja_nCorr_abb += 0.5;
+                if (baja_MCorr_abb < 0.5) baja_MCorr_abb = 0.5;
             }
             else {
             if (strcmp(actual->a.codigo,padre->a.codigo)<0)
@@ -264,6 +284,8 @@ int baja_ABB(char codArt[], int tipo)
             if (strcmp(actual->a.codigo,padre->a.codigo)>0)
                 padre->der = actual->izq;
             free(actual);
+            baja_nCorr_abb += 0.5;
+            if (baja_MCorr_abb < 0.5) baja_MCorr_abb = 0.5;
             }
             //printf("\nCaso 3\n");
         }
@@ -273,13 +295,18 @@ int baja_ABB(char codArt[], int tipo)
             {
                 ABB=actual->der;
                 free(actual);
+                baja_nCorr_abb += 0.5;
+                if (baja_MCorr_abb < 0.5) baja_MCorr_abb = 0.5;
             }
             else{
             if (strcmp(actual->a.codigo,padre->a.codigo)<0)
                 padre->izq = actual->der;
             if (strcmp(actual->a.codigo,padre->a.codigo)>0)
                 padre->der = actual->der;
-            free(actual);}
+            free(actual);
+            baja_nCorr_abb += 0.5;
+            if (baja_MCorr_abb < 0.5) baja_MCorr_abb = 0.5;
+            }
             //printf("\nCaso 4\n");
         }
         else if (esHoja(actual))
@@ -289,6 +316,8 @@ int baja_ABB(char codArt[], int tipo)
             if (strcmp(actual->a.codigo,padre->a.codigo)>0) //es descendiente derecho
                 padre->der = NULL;
             free(actual);
+            baja_nCorr_abb += 0.5;
+            if (baja_MCorr_abb < 0.5) baja_MCorr_abb = 0.5;
             //printf("\nCaso 5\n");
         }
     }
@@ -302,24 +331,28 @@ void mostrarArbol(Arbol r)
 {
     if (r !=NULL )
     {
-        printf("\n\n__________________________________________\n");
+        printf("\n__________________________________________\n");
         printf("\n============= PADRE: ============= ");
             //printf("\nDire Puntero %p",r);
             imprimirArt(r->a);
+
         printf("\n============ HIJO IZQ ============ ");
         if(r->izq == NULL) printf("\nVacio.");
         else
         {
             //printf("\nDire Puntero %p",r->izq);
             imprimirArt(r->izq->a);
+
         }
         printf("\n============ HIJO DER ============ ");
-        if (r->der == NULL) printf("\nVacio.");
+        if (r->der == NULL) printf("\nVacio.\n");
         else
         {
             //printf("\nDire Puntero %p",r->der);
             imprimirArt(r->der->a);
+
         }
+        if ((j % 5) == 0){system("\n pause");}j++;  //Limitador de articulos a mostrar
         mostrarArbol(r->izq);
         mostrarArbol(r->der);
     }
@@ -351,6 +384,7 @@ void mostrarArbolDibujado(Arbol r)
         {
             printf("\n\t\t\t\t\tCodigo: %s\n",r->der->a.codigo);
         }
+        if ((j % 5) == 0){system("\n pause");}j++;  //Limitador de articulos a mostrar
         mostrarArbolDibujado(r->izq);
         mostrarArbolDibujado(r->der);
     }
@@ -363,6 +397,7 @@ void InOrden(Arbol r)  // INORDEN
     {
         InOrden (r->izq);
         imprimirArt(r->a);
+        if ((j % 5) == 0){system("\n pause");}j++;  //Limitador de articulos a mostrar
         InOrden (r->der);
     }
 }
@@ -372,6 +407,7 @@ void PreOrden(Arbol r)  // PREORDEN
     if (r != NULL)
     {
         imprimirArt(r->a);
+        if ((j % 5) == 0){system("\n pause");}j++;  //Limitador de articulos a mostrar
         PreOrden (r->izq);
         PreOrden (r->der);
     }
@@ -384,6 +420,7 @@ void PostOrden(Arbol r)  // POSTORDEN
         PostOrden (r->izq);
         PostOrden (r->der);
         imprimirArt(r->a);
+        if ((j % 5) == 0){system("\n pause");}j++;  //Limitador de articulos a mostrar
     }
 }
 
@@ -412,13 +449,17 @@ Arbol menorDeMayores(Arbol p)
 Articulo evocar_ABB(char codArt[],int *exito){
     Arbol padre,actual;
     Articulo temp;
-    (*exito)=localizar_ABB(codArt,&padre,&actual,0);
+    (*exito)=localizar_ABB(codArt,&padre,&actual,1);
     if (*exito == 1){
         evoE_abb++;
+        nodosConsE_abb += consultados_abb;
+        if (Max_EvoE_abb < consultados_abb) Max_EvoE_abb=consultados_abb;
         return actual->a;
     }
     else {
         evoF_abb++;
+        nodosConsF_abb += consultados_abb;
+        if (Max_EvoF_abb < consultados_abb) Max_EvoF_abb=consultados_abb;
         return temp;
     }
 }

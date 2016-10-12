@@ -20,19 +20,21 @@ int opcion = -1;
 void encabezado()
 {
     system("cls");
-    printf("\n\t****************************************\n"
-             "\t*** ESTRUCTURA DE DATOS Y ALGORITMOS ***\n"
-             "\t****************************************\n");
+    printf("\n\t\t****************************************\n"
+             "\t\t*** ESTRUCTURA DE DATOS Y ALGORITMOS ***\n"
+             "\t\t****************************************\n");
 }
 
 // -- MENU ADMINISTRACION
 void administracion()
 {
+    limpiar_contadores();
+
     while (opcion !=0)
     {
         encabezado();
-        printf("\n\t      Administracion de estructuras      \n"
-                 "\t      -----------------------------      \n"
+        printf("\n\t\t      Administracion de estructuras      \n"
+                 "\t\t      -----------------------------      \n"
                 "\n[1] Arbol Binario de Busqueda (A.B.B.)"
                 "\n[2] Lista Invertida (L.I.)"
                 "\n\n[0] Volver\n"
@@ -53,54 +55,57 @@ void comparacion()
 {
     limpiar_contadores();
     ABB = NULL;
-    cant_ABB = 0;
 
 
     encabezado();
-    printf("\t       Comparacion de estructuras       \n"
-           "\t       --------------------------       \n");
+    printf("\t\t       Comparacion de estructuras       \n"
+           "\t\t       --------------------------       \n");
     lectura_archivo_operaciones();
 
     encabezado();
-    printf("\t       Comparacion de estructuras       \n"
-           "\t\tTotal de Articulos: %d\n"
-           "\t       --------------------------       \n"
+    printf("\t\t       Comparacion de estructuras       \n"
+           "\t\t\tTotal de Articulos: %d\n"
+           "\t\t       --------------------------       \n"
 
-           "\nCant. de Altas:\t\t\tABB: %d \tLI: 0 "
-           "\nCant. de Bajas:\t\t\tABB: %d \tLI: 0 "
-           "\nCant. de Evocaciones-Exito:\tABB: %d \tLI: 0 "
-           "\nCant. de Evocaciones-Fracaso:\tABB: %d \tLI: 0\n"
-           ,cant_ABB,altas_abb,bajas_abb,evoE_abb,evoF_abb
-           );
-
-    printf("\nCostos de Altas"
-           "\n---------------"
-           "\n\tMEDIOS:\t\tMAXIMOS:"
-           "\nABB:\t0\t\t0"
-           "\nLI:\t0\t\t0"
-
-
-           );
-    printf("\n\nCostos de Bajas"
-             "\n---------------"
-           "\n\tMEDIOS:\t\tMAXIMOS:"
-           "\nABB:\t.2f\t\t0"
-           "\nLI:\t.2f\t\t0"
+           "\n Cant. de Altas:\t\tABB: %d \tLI: %d "
+           "\n Cant. de Bajas:\t\tABB: %d \tLI: %d "
+           "\n Cant. de Evocaciones-Exito:\tABB: %d \tLI: 0 "
+           "\n Cant. de Evocaciones-Fracaso:\tABB: %d \tLI: 0\n"
+           ,cant_ABB,altas_abb,altas_LI,bajas_abb,bajas_LI,evoE_abb,evoF_abb
 
            );
 
-    printf("\n\nCostos de Evocaciones Exitosas"
-             "\n------------------------------"
+    printf("\n Costos de Altas:"
+           "\n------------------------------------"
            "\n\tMEDIOS:\t\tMAXIMOS:"
-           "\nABB:\t.2f\t\td"
-           "\nLI:\t.2f\t\td"
+           "\n ABB:\t%.2f\t\t%.2f"
+           "\n LI:\t0\t\t0"
+           ,alta_nCorr_abb/(float)altas_abb,alta_MCorr_abb
 
            );
-    printf("\n\nCostos de Evocaciones NO Exitosas"
-             "\n---------------------------------"
+    printf("\n\n Costos de Bajas:"
+             "\n------------------------------------"
            "\n\tMEDIOS:\t\tMAXIMOS:"
-           "\nABB:\t.2f\t\td"
-           "\nLI:\t.2f\t\td"
+           "\n ABB:\t%.2f\t\t%.2f"
+           "\n LI:\t.2f\t\t0"
+           ,baja_nCorr_abb/(float)bajas_abb,baja_MCorr_abb
+
+           );
+
+    printf("\n\n Costos de Evocaciones Exitosas:"
+             "\n------------------------------------"
+           "\n\tMEDIOS:\t\tMAXIMOS:"
+           "\n ABB:\t%.2f\t\t%d"
+           "\n LI:\t.2f\t\td"
+           ,(float)nodosConsE_abb/(float)evoE_abb,Max_EvoE_abb
+
+           );
+    printf("\n\n Costos de Evocaciones NO Exitosas:"
+             "\n------------------------------------"
+           "\n\tMEDIOS:\t\tMAXIMOS:"
+           "\n ABB:\t%.2f\t\t%d"
+           "\n LI:\t.2f\t\td \n"
+           ,(float)nodosConsF_abb/(float)evoF_abb,Max_EvoF_abb
 
            );
     system("pause");

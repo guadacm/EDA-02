@@ -23,16 +23,31 @@ typedef struct Nodo
 
 typedef aNodo* Arbol;
 
-Arbol ABB = NULL;   //Creacion de Arbol binario con nombre ABB, apuntando a null inicialmente
+Arbol ABB = NULL;         //Creacion de Arbol binario con nombre ABB, apuntando a null inicialmente
 
-int cant_ABB = 0;
-int altas_abb = 0;
-int bajas_abb = 0;
-int evoE_abb = 0;
-int evoF_abb = 0;
+int j;
+int cant_ABB = 0;         // cantidad de articulos
+int altas_abb = 0;        // total de altas
+int bajas_abb = 0;        // total de bajas
+int evoE_abb = 0;         // evocaciones Exitosas
+int evoF_abb = 0;         // evocaciones Fracasan
+int consultados_abb = 0;  // nodos consultados dentro de localizar
+float alta_nCorr_abb = 0; // numero de corrimientos en altas
+float alta_MCorr_abb = 0; // Maximo de corrimientos en altas
+float baja_nCorr_abb = 0; // numero de corrimientos en bajas
+float baja_MCorr_abb = 0; // Maximo de corrimientos en bajas
+int nodosConsE_abb = 0;   // Cantidad de nodos consultados en evocaciones Exitosas
+int Max_EvoE_abb = 0;     // Maximo de nodos consultados en evocaciones Exitosas
+int nodosConsF_abb = 0;   // Cantidad de nodos consultados en evocaciones de Fracaso
+int Max_EvoF_abb = 0;     // Maximo de nodos consultados en evocaciones de Fracaso
+
 // -- L.I.
 Articulo *LI[DIM];
-int cant_LI = 0;
+int cant_LI = 0;   // cantidad de articulos
+int altas_LI = 0;  // total de altas
+int bajas_LI = 0;  // total de bajas
+int evoE_LI = 0;   // evocaciones Exitosas
+int evoF_LI = 0;   // evocaciones Fracasan
 
 /* FIN VARIABLES */
 
@@ -83,12 +98,27 @@ void imprimirArt(Articulo Art)
 
 void limpiar_contadores()
 {
+    /*ABB*/
     cant_ABB = 0;
     altas_abb = 0;
     bajas_abb = 0;
     evoE_abb = 0;
     evoF_abb = 0;
-
+    consultados_abb = 0;
+    alta_nCorr_abb = 0;
+    alta_MCorr_abb = 0;
+    baja_nCorr_abb = 0;
+    baja_MCorr_abb = 0;
+    nodosConsE_abb = 0;
+    Max_EvoE_abb = 0;
+    nodosConsF_abb = 0;
+    Max_EvoF_abb = 0;
+    /*LI*/
+    cant_LI = 0;
+    altas_LI = 0;
+    bajas_LI = 0;
+    evoE_LI = 0;
+    evoF_LI = 0;
 }
 
 void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
@@ -203,9 +233,11 @@ void lectura_archivo_operaciones()
             {
                 case 1:
                     alta_ABB(nuevo);
+                    //alta_LI(nuevo);
                     break;
                 case 2:
                     baja_ABB(nuevo.codigo,1);
+                    //baja_LI(nuevo.codigo,1);
                     break;
                 case 3:
                     evocar_ABB(nuevo.codigo,&aux);
