@@ -44,10 +44,25 @@ int Max_EvoF_abb = 0;     // Maximo de nodos consultados en evocaciones de Fraca
 // -- L.I.
 Articulo *LI[DIM];
 int cant_LI = 0;   // cantidad de articulos
+
 int altas_LI = 0;  // total de altas
+float cor_alta_LI = 0;
+float max_alta_LI = 0;
+
 int bajas_LI = 0;  // total de bajas
+int cor_baja_LI = 0;
+int max_baja_LI = 0;
+
+int consultadas = 0; // contador de codigos consultados
+
 int evoE_LI = 0;   // evocaciones Exitosas
+int consE_LI = 0;
+int max_evoE_LI = 0;
+
 int evoF_LI = 0;   // evocaciones Fracasan
+int consF_LI = 0;
+int max_evoF_LI = 0;
+
 
 /* FIN VARIABLES */
 
@@ -113,12 +128,22 @@ void limpiar_contadores()
     Max_EvoE_abb = 0;
     nodosConsF_abb = 0;
     Max_EvoF_abb = 0;
+
     /*LI*/
     cant_LI = 0;
     altas_LI = 0;
+    cor_alta_LI = 0;
+    max_alta_LI = 0;
     bajas_LI = 0;
+    cor_baja_LI = 0;
+    max_baja_LI = 0;
+    consultadas = 0;
     evoE_LI = 0;
+    consE_LI = 0;
+    max_evoE_LI = 0;
     evoF_LI = 0;
+    consF_LI = 0;
+    max_evoF_LI = 0;
 }
 
 void memorizacion_previa(int estr) // estr: 1.ABB || 2.LI
@@ -233,14 +258,15 @@ void lectura_archivo_operaciones()
             {
                 case 1:
                     alta_ABB(nuevo);
-                    //alta_LI(nuevo);
+                    alta_LI(nuevo);
                     break;
                 case 2:
                     baja_ABB(nuevo.codigo,1);
-                    //baja_LI(nuevo.codigo,1);
+                    baja_LI(nuevo.codigo,1);
                     break;
                 case 3:
                     evocar_ABB(nuevo.codigo,&aux);
+                    evocar_LI(nuevo.codigo);
                     break;
 
             }

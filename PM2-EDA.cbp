@@ -31,6 +31,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="ABB.h" />
+		<Unit filename="Articulos.txt" />
+		<Unit filename="LI.h" />
+		<Unit filename="Operaciones.txt" />
+		<Unit filename="estructuras.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

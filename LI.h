@@ -134,12 +134,12 @@ void menu_LI(int *op)
 
 int localizar_LI(char codArt[], int *posicion, int conCosto) //-- DEVUELVE: 1.Exito 0.Fracaso
 {
-    //consultadas = 0;
+    consultadas = 0;
     int li, ls, testigo;
-    //int i;
-    //int aux[DIM];
-    //for(i = 0; i < DIM; i++)
-    //    aux[i] = 0;
+    int i;
+    int aux[DIM];
+    for(i = 0; i < DIM; i++)
+        aux[i] = 0;
     if (cant_LI != 0)
     {
         li = 0;
@@ -147,8 +147,8 @@ int localizar_LI(char codArt[], int *posicion, int conCosto) //-- DEVUELVE: 1.Ex
         while (li !=ls)
         {
             testigo = (li + ls - 1) / 2;
-            //aux[testigo] = 1;
-            //if(conCosto == 1) consultadas++;
+            aux[testigo] = 1;
+            if(conCosto == 1) consultadas++;
             if(strcmp(codArt, LI[testigo]->codigo) > 0)
             {
                 li = testigo + 1;
@@ -160,8 +160,8 @@ int localizar_LI(char codArt[], int *posicion, int conCosto) //-- DEVUELVE: 1.Ex
 
         }
         *posicion = li;
-        //if(aux[li] == 0 && conCosto == 1)
-        //    consultadas++;
+        if(aux[li] == 0 && conCosto == 1)
+            consultadas++;
         if(strcmp(codArt, LI[li]->codigo) == 0)
         {
             return 1;
@@ -183,7 +183,7 @@ int alta_LI(Articulo nuevo) //-- DEVUELVE: 1.Exito 0.Fracaso.
 {
     if (cant_LI < DIM)
     {
-        //int corrimientos = 0;
+        float corrimientos = 0;
         int loc;
         if (localizar_LI(nuevo.codigo, &loc, 0) == 0)
         {
@@ -191,15 +191,15 @@ int alta_LI(Articulo nuevo) //-- DEVUELVE: 1.Exito 0.Fracaso.
             for(i = cant_LI; i >= loc; i--)
             {
                 LI[i + 1] = LI[i];
-                //corrimientos++;
+                corrimientos++;
             }
             LI[loc] = malloc(sizeof(Articulo));
-            *LI[loc] = nuevo;
+            *LI[loc] = nuevo;       // Actualizo un puntero, lo cuento como medio corrimiento (0.5)
+            corrimientos += 0.5;
             cant_LI++;
-            //cant_altas_LSO++;
-//            total_corrimientos_alta_LSO = total_corrimientos_alta_LSO + corrimientos;
-//            if(maximo_alta_LSO < corrimientos)
-//                maximo_alta_LSO = corrimientos;
+            cor_alta_LI = cor_alta_LI + corrimientos;
+            if(max_alta_LI < corrimientos)
+                max_alta_LI = corrimientos;
             altas_LI++;
             return 1;
         }
@@ -216,7 +216,7 @@ int baja_LI(char codArt[], int entrada) //-- DEVUELVE: 1.Exito 0.Fracaso
 {
     if(cant_LI != 0)
     {
-        //int corrimientos = 0;
+        int corrimientos = 0;
         int loc;
         char c = 'S';
         if(localizar_LI(codArt, &loc, 0) == 1)
@@ -230,14 +230,13 @@ int baja_LI(char codArt[], int entrada) //-- DEVUELVE: 1.Exito 0.Fracaso
                 for(i = loc; i < cant_LI; i++)
                 {
                     LI[i] = LI[i + 1];
-                    //corrimientos++;
+                    corrimientos++;
                 }
                 free(aux);
                 cant_LI--;
-//                cant_bajas_LSO++;
-//                total_corrimientos_baja_LSO = total_corrimientos_baja_LSO + corrimientos;
-//                if(maximo_baja_LSO < corrimientos)
-//                    maximo_baja_LSO = corrimientos;
+                cor_baja_LI = cor_baja_LI + corrimientos;
+                if(max_baja_LI < corrimientos)
+                    max_baja_LI = corrimientos;
                 bajas_LI++;
                 return 1;
             }
@@ -261,22 +260,22 @@ Articulo evocar_LI(char codArt[])
     if(localizar_LI(codArt, &loc, 1) == 1)
     {
         aux = *LI[loc];
-//        if(maximo_evo_exito_LSO < consultadas)
-//            maximo_evo_exito_LSO = consultadas;
-//
-//        total_consultadas_exito_LSO += consultadas;
-//
-//        cant_evocaciones_exito_LSO++;
+        if(max_evoE_LI < consultadas)
+            max_evoE_LI = consultadas;
+
+        consE_LI += consultadas;
+
+        evoE_LI++;
         return aux;
     }
     else
     {
-//        if(maximo_evo_fracaso_LSO < consultadas)
-//            maximo_evo_fracaso_LSO = consultadas;
-//
-//        total_consultadas_fracaso_LSO += consultadas;
-//
-//        cant_evocaciones_fracaso_LSO++;
+        if(max_evoF_LI < consultadas)
+            max_evoF_LI = consultadas;
+
+        consF_LI += consultadas;
+
+        evoF_LI++;
         return aux;
     }
 
