@@ -180,7 +180,10 @@ int localizar_ABB(char codArt[],Arbol *padre, Arbol *actual, int ConCosto)
                 if (ConCosto == 1) consultados_abb++;
         }
     }
-    if((*actual)!=NULL) return 1; //Si se encontro el articulo, no hace nada y sale de la funcion
+    if((*actual)!=NULL) {
+        if (ConCosto == 1) consultados_abb++;
+        return 1; //Si se encontro el articulo, no hace nada y sale de la funcion
+        }
     else return 0; //Si no se encontro el articulo devuelve 0, y los punteros en donde quedaron
 }
 
