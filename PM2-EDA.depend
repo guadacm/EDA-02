@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1476382458 source:c:\users\guada\desktop\pm\pm2-eda\main.c
+1476666117 source:c:\users\guada\desktop\pm\pm2-eda\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -7,9 +7,9 @@
 	"ABB.h"
 	"LI.h"
 
-1476382827 c:\users\guada\desktop\pm\pm2-eda\estructuras.h
+1476666117 c:\users\guada\desktop\pm\pm2-eda\estructuras.h
 
-1476366146 c:\users\guada\desktop\pm\pm2-eda\abb.h
+1476666113 c:\users\guada\desktop\pm\pm2-eda\abb.h
 
-1476384375 c:\users\guada\desktop\pm\pm2-eda\li.h
+1476666636 c:\users\guada\desktop\pm\pm2-eda\li.h
 

@@ -147,8 +147,8 @@ int localizar_LI(char codArt[], int *posicion, int conCosto) //-- DEVUELVE: 1.Ex
         while (li !=ls)
         {
             testigo = (li + ls - 1) / 2;
-            aux[testigo] = 1;
-            if(conCosto == 1) consultadas++;
+            if(conCosto == 1) consultadas += 2;
+            if (aux[testigo] == 0) aux[testigo] = 2;
             if(strcmp(codArt, LI[testigo]->codigo) > 0)
             {
                 li = testigo + 1;
@@ -161,7 +161,7 @@ int localizar_LI(char codArt[], int *posicion, int conCosto) //-- DEVUELVE: 1.Ex
         }
         *posicion = li;
         if(aux[li] == 0 && conCosto == 1)
-            consultadas++;
+            consultadas += 2;
         if(strcmp(codArt, LI[li]->codigo) == 0)
         {
             return 1;
