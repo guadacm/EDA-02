@@ -183,7 +183,7 @@ int alta_LI(Articulo nuevo) //-- DEVUELVE: 1.Exito 0.Fracaso.
 {
     if (cant_LI < DIM)
     {
-        float corrimientos = 0;
+        int corrimientos = 0;
         int loc;
         if (localizar_LI(nuevo.codigo, &loc, 0) == 0)
         {
@@ -193,9 +193,9 @@ int alta_LI(Articulo nuevo) //-- DEVUELVE: 1.Exito 0.Fracaso.
                 LI[i + 1] = LI[i];
                 corrimientos++;
             }
-            LI[loc] = malloc(sizeof(Articulo));
-            *LI[loc] = nuevo;       // Actualizo un puntero, lo cuento como medio corrimiento (0.5)
-            corrimientos += 0.5;
+            LI[loc] = (Articulo *)malloc(sizeof(Articulo));
+            *LI[loc] = nuevo;
+
             cant_LI++;
             cor_alta_LI = cor_alta_LI + corrimientos;
             if(max_alta_LI < corrimientos)

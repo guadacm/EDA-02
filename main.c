@@ -26,7 +26,8 @@ M: máximo      _____________________ ______________________ ____________________
 
   -- Funciones de costos:
                          - Alta y Baja -> Cantidad de corrimientos y/o actualizacion de punteros
-                         - Evocaciones -> Cantidad de celdas consultadas
+                         - Evocaciones ABB -> Cantidad de celdas consultadas
+                         - Evocaciones LI -> Cantidad de celdas consultadas + cantidad de consultas a lo apuntado por el puntero contenido en la celda
 
 
 

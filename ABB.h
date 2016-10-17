@@ -231,6 +231,7 @@ int alta_ABB(Articulo dat)
             if (alta_MCorr_abb < 0.5) alta_MCorr_abb = 0.5;
             return 1;
         }
+        return 1;
     }
 }
 
@@ -240,7 +241,7 @@ int baja_ABB(char codArt[], int tipo)
     Arbol actual,ac;
     Arbol temp;
     char c = 'S';
-    int exito,n;
+    int exito;
     exito=localizar_ABB(codArt,&padre,&actual,0);
     if (exito==0) return 0;
     else
