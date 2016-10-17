@@ -69,6 +69,7 @@ void encabezado()
     printf("\n\t\t****************************************\n"
              "\t\t*** ESTRUCTURA DE DATOS Y ALGORITMOS ***\n"
              "\t\t****************************************\n");
+
 }
 
 // -- MENU ADMINISTRACION

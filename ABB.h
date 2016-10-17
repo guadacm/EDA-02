@@ -10,12 +10,13 @@ int celda;
 void menu_ABB(int *op)
 {
     cant_ABB = 0;
+    ABB = NULL;
 
     while (*op != 0)
     {
         encabezado();
-        printf("Arbol Binario de Busqueda\n");
-        printf("_____________________________\n");
+        printf(  "\t\t      Arbol Binario de Busqueda         \n");
+        printf(  "\t\t      -------------------------         \n");
         printf("\n[1] Nuevo articulo");
         printf("\n[2] Eliminar articulo");
         printf("\n[3] Consultar articulo");
@@ -32,8 +33,8 @@ void menu_ABB(int *op)
 
         case 1:
             encabezado();
-            printf("Arbol Binario de Busqueda\n");
-            printf("_________________________\n");
+            printf(  "\t\t      Arbol Binario de Busqueda         \n");
+            printf(  "\t\t      -------------------------         \n");
             printf("\n[1] Nuevo articulo");
             Articulo nuevo;
             printf("\n\n Codigo: \t");
@@ -62,8 +63,8 @@ void menu_ABB(int *op)
 
         case 2:
             encabezado();
-            printf("Arbol Binario de Busqueda\n");
-            printf("_________________________\n");
+            printf(  "\t\t      Arbol Binario de Busqueda         \n");
+            printf(  "\t\t      -------------------------         \n");
             printf("\n[2] Eliminar articulo");
             printf("\n\n Codigo: \t");
             fflush(stdin);
@@ -76,8 +77,8 @@ void menu_ABB(int *op)
 
         case 3:
             encabezado();
-            printf("Arbol Binario de Busqueda\n");
-            printf("_________________________\n");
+            printf(  "\t\t      Arbol Binario de Busqueda         \n");
+            printf(  "\t\t      -------------------------         \n");
             printf("\n[3] Consultar articulo\n");
             printf("\n\n Codigo: \t");
             int aux;
@@ -98,8 +99,8 @@ void menu_ABB(int *op)
         case 4:
             encabezado();
             int ord;
-            printf("Arbol Binario de Busqueda\n");
-            printf("_________________________\n");
+            printf(  "\t\t      Arbol Binario de Busqueda         \n");
+            printf(  "\t\t      -------------------------         \n");
             printf("\n[4] Mostrar Estructura\n");
             if (ABB == NULL) printf("\n\t Estructura VACIA...\n");
             if(ABB!=NULL){
@@ -150,8 +151,8 @@ void menu_ABB(int *op)
 
         case 5:
             encabezado();
-            printf("Arbol Binario de Busqueda\n");
-            printf("_________________________\n");
+            printf(  "\t\t      Arbol Binario de Busqueda         \n");
+            printf(  "\t\t      -------------------------         \n");
             printf("\n[5] Memorizacion Previa\n");
             memorizacion_previa(1);
             system("pause");

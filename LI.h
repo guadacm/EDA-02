@@ -12,8 +12,8 @@ void menu_LI(int *op)
     while (*op != 0)
     {
         encabezado();
-        printf("\n\t\t       Lista Invertida        \n"
-                 "\t\t       ---------------        \n"
+        printf("\n\t\t         Lista Invertida        \n"
+                 "\t\t         ---------------        \n"
                "\n[1] Nuevo articulo"
                "\n[2] Eliminar articulo"
                "\n[3] Consultar articulo"
@@ -31,8 +31,8 @@ void menu_LI(int *op)
         case 1: // Alta
             {
                 encabezado();
-                printf("\n\t        Lista Invertida        \n"
-                         "\t        ---------------        \n"
+                printf("\n\t\t          Lista Invertida        \n"
+                         "\t\t          ---------------        \n"
                        "\n[1] Nuevo articulo");
 
                 Articulo nuevo;
@@ -69,8 +69,8 @@ void menu_LI(int *op)
         case 2: // Baja
             {
                 encabezado();
-                printf("\n\t        Lista Invertida        \n"
-                         "\t        ---------------        \n"
+                printf("\n\t\t          Lista Invertida        \n"
+                         "\t\t          ---------------        \n"
                            "\n[2] Eliminar articulo");
                 char cod[8];
                 int baja;
@@ -89,8 +89,8 @@ void menu_LI(int *op)
         case 3: // Consultar
             {
                 encabezado();
-                printf("\n\t       Lista Invertida        \n"
-                         "\t       ---------------        \n"
+                printf("\n\t\t         Lista Invertida        \n"
+                         "\t\t         ---------------        \n"
                        "\n[3] Consultar articulo");
                 char cod[8];
                 printf("\n\nCodigo: ");
@@ -111,8 +111,8 @@ void menu_LI(int *op)
         case 4: // Mostrar
             {
                 encabezado();
-                printf("\n\t       Lista Invertida        \n"
-                         "\t       ---------------        \n");
+                printf("\n\t\t         Lista Invertida        \n"
+                         "\t\t         ---------------        \n");
                 mostrar_LI();
                 system("pause");
                 break;
@@ -120,8 +120,8 @@ void menu_LI(int *op)
         case 5: // Memorizacion
             {
                 encabezado();
-                printf("\n\t       Lista Invertida        \n"
-                         "\t       ---------------        \n");
+                printf("\n\t\t         Lista Invertida        \n"
+                         "\t\t         ---------------        \n");
                 memorizacion_previa(2);
                 system("pause");
                 break;
